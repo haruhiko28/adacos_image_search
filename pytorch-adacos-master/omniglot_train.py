@@ -37,7 +37,8 @@ def parse_args():
                         choices=['adacos', 'arcface', 'sphereface', 'cosface', 'softmax'])
     parser.add_argument('--num-features', default=512, type=int,
                         help='dimention of embedded features')
-    parser.add_argument('--num-classes', default=1623, type=int)
+    # parser.add_argument('--num-classes', default=1623, type=int)
+    parser.add_argument('--num-classes', default=196, type=int)
     parser.add_argument('-b', '--batch-size', default=32, type=int,
                         metavar='N', help='mini-batch size (default: 32)')
     parser.add_argument('--epochs', default=50, type=int)
@@ -47,7 +48,6 @@ def parse_args():
     parser.add_argument('--weight-decay', default=1e-4, type=float)
     parser.add_argument('--nesterov', default=False, type=str2bool)
     parser.add_argument('--cpu', default=False, type=str2bool)
-
     args = parser.parse_args()
 
     return args
@@ -161,15 +161,23 @@ def main():
 
     cudnn.benchmark = True
 
-    img_paths = glob('omniglot/omniglot/python/images_background/*/*/*.png')
-    img_paths.extend(
-        glob('omniglot/omniglot/python/images_evaluation/*/*/*.png'))
-    labels = LabelEncoder().fit_transform(
-        [p.split('/')[-3] + '_' + p.split('/')[-2] for p in img_paths])
-    print(len(np.unique(labels)))
+    # img_paths = glob('omniglot/omniglot/python/images_background/*/*/*.png')
+    # img_paths.extend(
+    #     glob('omniglot/omniglot/python/images_evaluation/*/*/*.png'))
+    # labels = LabelEncoder().fit_transform(
+    #     [p.split('/')[-3] + '_' + p.split('/')[-2] for p in img_paths])
+    # print(len(np.unique(labels)))
 
-    train_img_paths, test_img_paths, train_labels, test_labels = train_test_split(
-        img_paths, labels, test_size=0.2, random_state=41, stratify=labels)
+    # train_img_paths, test_img_paths, train_labels, test_labels = train_test_split(
+    #     img_paths, labels, test_size=0.2, random_state=41, stratify=labels)
+    
+    train_img_paths = glob('cars/train/*/*.jpg')
+    train_labels = [p.split('/')[-2] for p in train_img_paths]
+    train_labels = LabelEncoder().fit_transform(train_labels)
+    test_img_paths = glob('cars/test/*/*.jpg')
+    test_labels = [p.split('/')[-2] for p in test_img_paths]
+    test_labels = LabelEncoder().fit_transform(test_labels)
+    print(len(np.unique(train_labels)),len(np.unique(test_labels)))
 
     transform_train = transforms.Compose([
         transforms.RandomResizedCrop(114),
