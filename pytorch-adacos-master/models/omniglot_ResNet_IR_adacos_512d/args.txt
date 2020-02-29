@@ -1,0 +1,14 @@
+name: omniglot_ResNet_IR_adacos_512d
+arch: ResNet_IR
+backbone: resnet18
+metric: adacos
+num_features: 512
+num_classes: 196
+batch_size: 32
+epochs: 50
+lr: 0.1
+min_lr: 0.001
+momentum: 0.9
+weight_decay: 0.0001
+nesterov: False
+cpu: False
