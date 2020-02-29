@@ -171,10 +171,10 @@ def main():
     # train_img_paths, test_img_paths, train_labels, test_labels = train_test_split(
     #     img_paths, labels, test_size=0.2, random_state=41, stratify=labels)
     
-    train_img_paths = glob('drive/My\ Drive/train/*/*.jpg')
+    train_img_paths = glob('/content/drive/My\ Drive/train/*/*.jpg')
     train_labels = [p.split('/')[-2] for p in train_img_paths]
     train_labels = LabelEncoder().fit_transform(train_labels)
-    test_img_paths = glob('drive/My\ Drive/test/*/*.jpg')
+    test_img_paths = glob('/content/drive/My\ Drive/test/*/*.jpg')
     test_labels = [p.split('/')[-2] for p in test_img_paths]
     test_labels = LabelEncoder().fit_transform(test_labels)
     print(len(np.unique(train_labels)),len(np.unique(test_labels)))
